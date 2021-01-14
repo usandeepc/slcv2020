@@ -48,7 +48,8 @@ class Filter_Data(generics.ListAPIView):
     def get_queryset(self):
         
         group = self.request.GET.get('group')
+        dose = self.request.GET.get('dose')
         print(group)
         print(type(group))
-        qs = Volunteer.objects.all().filter(vaccine_group = group)
+        qs = Volunteer.objects.all().filter(group=group).filter(dose = dose)
         return qs

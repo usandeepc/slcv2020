@@ -16,7 +16,7 @@ class Volunteer(models.Model):
     class Group(models.TextChoices):
         A = 'A'
         B = 'B'
-    vaccine_group = models.CharField(max_length = 8, choices = Group.choices, default = Group.A);
+    group = models.CharField(max_length = 8, choices = Group.choices, default = Group.A);
     class Dose(models.TextChoices):
         half_dose = '0.5'
         full_dose = '1'
