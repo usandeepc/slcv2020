@@ -24,7 +24,7 @@ router = routers.DefaultRouter()
 router.register(r"volunteerdashboard",views.VolunteerDashboard)
 router.register(r"register",views.Register)
 router.register(r"login",views.Login)
-router.register(r"vaccine/all-result",views.Count,basename='Count')
+router.register(r"vaccine/all-result",views.Count,basename = 'vaccie')
 
 urlpatterns = [
     path(r"admin/", admin.site.urls),

@@ -5,7 +5,8 @@ from django.views.generic import View
 from django.shortcuts import render
 from rest_framework.response import Response
 import io
-from django.http import HttpResponse
+import json
+from django.http import HttpResponse,JsonResponse
 from json import *
 from vaccine.models import Volunteer
 from vaccine.serializers import (RegisterSerializer,
@@ -35,15 +36,42 @@ class VolunteerDashboard(viewsets.ModelViewSet):
 
 class Count(viewsets.ModelViewSet):
     serializer_class = CountSerializer
-    renderer_classes = [JSONRenderer]
-    def get_queryset(self):
+    #renderer_classes = [JSONRenderer]
+    
+ 
+    def list(self, request, *args, **kwargs):
         queryset = Volunteer.objects.all()
-        qs = queryset.count()
-        status = Volunteer.objects.filter(status = 'Positive')
-        qs1 = status.count()
-        qs2 = qs-qs1
-        return queryset
-        
+        volunteers = queryset.count()
+        positive_data = Volunteer.objects.filter(status = 'Positive')
+        positives = positive_data.count()
+        positive_a = Volunteer.objects.filter(status = 'Positive').filter(group = 'A').count()
+        positive_b = Volunteer.objects.filter(status = 'Positive').filter(group = 'B').count()
+        threshold = 0
+        efficacy_rate =(positive_b-positive_a)/positive_b
+        dict = {
+            {"name" : "SLCV2020",
+            "type" : "vaccine",
+            "vaccinegroup" : "A",
+            "efficacy_rate" : efficacy_rate,
+            "result":{
+                "volunteer" : volunteers,
+                "confirm_positive" : positive_a,
+                    }
+        },
+        {
+            "name" : "Unknown",
+            "type" : "Placebo",
+            "vaccinegroup" : "B",
+            "result" : {
+                "Volunteer" : volunteers,
+                "confirm_positive" : positive_b,
+            }
+        },
+        }
+        if positives>threshold :
+            return HttpResponse(json.dumps(dict),content_type = 'application/json')
+        else:
+            return HttpResponse(json.dumps({'Message':'Vaccination in progress'}),content_type = 'application/json')
 
 
 class Filter_Data(generics.ListAPIView):
@@ -57,3 +85,4 @@ class Filter_Data(generics.ListAPIView):
         print(type(group))
         qs = Volunteer.objects.all().filter(group=group).filter(dose = dose)
         return qs
+
