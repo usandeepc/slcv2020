@@ -23,11 +23,12 @@ router = routers.DefaultRouter()
 
 router.register(r"volunteerdashboard",views.VolunteerDashboard)
 router.register(r"register",views.Register)
-router.register(r"login",views.Login)
+#router.register(r"login",views.Login.as_view())
 router.register(r"vaccine/all-result",views.Count,basename = 'vaccie')
 
 urlpatterns = [
     path(r"admin/", admin.site.urls),
     path(r"", include(router.urls)),
-    path(r"result",views.Filter_Data.as_view())
+    path(r"result",views.Filter_Data.as_view()),
+    path(r"login",views.Login.as_view()),
 ]

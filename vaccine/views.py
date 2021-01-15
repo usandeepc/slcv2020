@@ -19,14 +19,22 @@ from rest_framework.filters import SearchFilter
 
 
 # Create your views here.
-class Login(viewsets.ModelViewSet):
-    serializer_class = LoginSerializer
-    queryset = Volunteer.objects.all()
-
-
 class Register(viewsets.ModelViewSet):
     serializer_class = RegisterSerializer
     queryset = Volunteer.objects.all()
+
+
+class Login(generics.ListAPIView):
+    serializer_class = LoginSerializer
+    #queryset = Volunteer.objects.all()
+    def list(self, request, *args, **kwargs):
+        email = self.request.GET.get('email')
+        password = self.request.GET.get('password')
+        if not Volunteer.objects.filter(email = email, password = password).exists():
+            return HttpResponse(json.dumps({'Message':'No user found with given details'}),content_type = 'application/json')
+        else:
+            qs = Volunteer.objects.all().filter(email = email)
+            return HttpResponse(qs)
 
 
 class VolunteerDashboard(viewsets.ModelViewSet):
@@ -78,10 +86,9 @@ class Count(viewsets.ModelViewSet):
 
 
 class Filter_Data(generics.ListAPIView):
-    #queryset = Volunteer.objects.all()
+    #queryset = Volunteerobjects.all()
     serializer_class = CountSerializer
     def get_queryset(self):
-        
         group = self.request.GET.get('group')
         dose = self.request.GET.get('dose')
         print(group)

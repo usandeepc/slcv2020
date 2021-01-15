@@ -11,7 +11,7 @@ class RegisterSerializer(ModelSerializer):
 class LoginSerializer(ModelSerializer):
     class Meta:
         model = Volunteer
-        fields = ['email','password',]
+        fields = '__all__'
 
 
 class VoluteerDashboardSerializer(ModelSerializer):
