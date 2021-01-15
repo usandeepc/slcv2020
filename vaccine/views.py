@@ -48,9 +48,30 @@ class Count(viewsets.ModelViewSet):
         positive_b = Volunteer.objects.filter(status = 'Positive').filter(group = 'B').count()
         threshold = 0
         efficacy_rate =(positive_b-positive_a)/positive_b
-        
+        s = [
+                {
+                    "name" : "slcv2020",
+                    "type" : "vaccine",
+                    "vaccinegroup" : "A",
+                    "efficacy_rate" : {efficacy_rate},
+                    "result" : {
+                        "volunteer" : {volunteers},
+                        "confirm_positive" :{positive_a}
+                    }
+                },
+                {
+                    "name" : "unknown",
+                    "type" : "placebo",
+                    "vaccinegroup" : "B",
+                    "result" : {
+                        "volunteer" : {volunteers},
+                        "confirm_positive" :{positive_b}
+                    }
+                }
+            ]
+        p = str(s)
         if positives>threshold :
-            return HttpResponse(json.dumps({'Message':'Vaccination in progress'}),content_type = 'application/json')
+            return HttpResponse(json.dumps({'data' : p}),content_type = 'application/json')
         else:
             return HttpResponse(json.dumps({'Message':'Vaccination in progress'}),content_type = 'application/json')
             

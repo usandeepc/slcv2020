@@ -82,7 +82,7 @@ DATABASES = {
         'NAME': 'slcv2020',
         'USER' : 'slcv',
         'PASSWORD' : '1234',
-        'HOST' : '192.168.1.20',
+        'HOST' : '13.232.210.240',
         'PORT' : '3306',
     }
 }
