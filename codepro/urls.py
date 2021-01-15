@@ -21,14 +21,15 @@ from vaccine import views
 router = routers.DefaultRouter()
 
 
-router.register(r"volunteerdashboard",views.VolunteerDashboard)
-router.register(r"register",views.Register)
-#router.register(r"login",views.Login.as_view())
-router.register(r"vaccine/all-result",views.Count,basename = 'vaccie')
+router.register(r"volunteerdashboard",views.VolunteerDashboard,basename='voluneteerdashboard')
+router.register(r"register",views.Register,basename = 'register')
+router.register(r"login",views.Login,basename = 'login')
+router.register(r"vaccine/all-result",views.AllResult,basename = 'vaccine')
+router.register(r"vaccine/result",views.Result,basename = 'result')
 
 urlpatterns = [
     path(r"admin/", admin.site.urls),
     path(r"", include(router.urls)),
-    path(r"result",views.Filter_Data.as_view()),
-    path(r"login",views.Login.as_view()),
+    #path(r"result",views.Filter_Data.as_view()),
+    #path(r"login",views.Login),
 ]

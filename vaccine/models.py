@@ -25,3 +25,11 @@ class Volunteer(models.Model):
         P = 'Positive'
         N = 'Negative'
     status = models.CharField(max_length = 10, choices = Status.choices,default = Status.N)
+
+
+class Maker(models.Model):
+    email = models.EmailField(max_length = 64, default = None, unique = True);
+    password = models.CharField(max_length = 64, default = None);
+    name = models.CharField(max_length = 64, default = None);
+    age = models.IntegerField(default = None);
+    address = models.CharField(max_length = 256, default = None);
