@@ -25,8 +25,8 @@ Create Project directory and clone the code repository into it
 
 	mkdir /project
 	cd /project 
-git clone https://github.com/usandeepc/slcv2020.git
-cd /project/slcv2020
+	git clone https://github.com/usandeepc/slcv2020.git
+	cd /project/slcv2020
 
 Install django and django rest framework in a virtual environment with pip
  
