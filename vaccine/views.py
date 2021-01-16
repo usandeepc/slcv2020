@@ -9,11 +9,12 @@ import io
 import json
 from django.http import HttpResponse,JsonResponse
 from json import *
-from vaccine.models import Volunteer
+from vaccine.models import Volunteer,Maker
 from vaccine.serializers import (RegisterSerializer,
                     LoginSerializer,
                     VoluteerDashboardSerializer,
-                    CountSerializer
+                    CountSerializer,
+                    MakerSerializer
 )
 from rest_framework import generics
 from rest_framework.filters import SearchFilter
@@ -171,3 +172,28 @@ class Result(viewsets.ModelViewSet):
         else:
             return HttpResponse(json.dumps({ "error_message":"Group is placebo type,Efficacy cannot be calculated"}),content_type = 'application/json')
 
+class MakerViewset(viewsets.ModelViewSet):
+    queryset = Maker.objects.all()
+    serializer_class = MakerSerializer
+    def list(self, request, *args, **kwargs):
+        email = self.request.query_params.get('email')
+        password = self.request.query_params.get('password')
+        if email is None or password is None:
+            return HttpResponse(json.dumps({ "error_message":"No Email and Passord inquery string."}),content_type = 'application/json')
+        elif not Maker.objects.filter(email = email, password = password).exists():
+            return HttpResponse(json.dumps({ "error_message":"No Such user/Password"}),content_type = 'application/json')
+        else:
+            return HttpResponse(json.dumps({ "error_message":"authsuccesful"}),content_type = 'application/json') 
+
+class MakerDashboard(viewsets.ModelViewSet):
+    def list(self,request, *args, **kwargs):
+        total_count = Volunteer.objects.all().count()
+        total_positive_count = Volunteer.objects.filter(status ='Positive').count()
+        s = {"total_volunteets_count": total_count, "total_positive_volunteets_count": total_positive_count}
+        return HttpResponse(json.dumps(str(s)),content_type = 'application/json')
+
+
+class MakerDashboardFull(viewsets.ModelViewSet):
+    def list(self,request, *args, **kwargs):
+        total_count = Volunteer.objects.all().count()
+        total_positive_count = Volunteer.objects.filter(status ='Positive').count()

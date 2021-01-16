@@ -1,5 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 from vaccine.models import Volunteer
+from vaccine.models import  Maker
 
 
 class RegisterSerializer(ModelSerializer):
@@ -23,6 +24,11 @@ class VoluteerDashboardSerializer(ModelSerializer):
 class CountSerializer(ModelSerializer):
     class Meta:
         model = Volunteer
+        fields = '__all__'
+
+class MakerSerializer(ModelSerializer):
+    class Meta:
+        model = Maker
         fields = '__all__'
 
 
