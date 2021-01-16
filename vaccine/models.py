@@ -16,11 +16,13 @@ class Volunteer(models.Model):
     class Group(models.TextChoices):
         A = 'A'
         B = 'B'
-    group = models.CharField(max_length = 8, choices = Group.choices, default = Group.A);
+        C = 'X'
+    group = models.CharField(max_length = 8, choices = Group.choices, default = Group.C);
     class Dose(models.TextChoices):
         half_dose = '0.5'
         full_dose = '1'
-    dose = models.CharField(max_length = 4, choices = Dose.choices, default = Dose.half_dose);
+        none = '0'
+    dose = models.CharField(max_length = 4, choices = Dose.choices, default = Dose.none);
     class Status(models.TextChoices):
         P = 'Positive'
         N = 'Negative'
