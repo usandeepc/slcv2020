@@ -23,7 +23,7 @@ router = routers.DefaultRouter()
 
 router.register(r"volunteerdashboard",views.VolunteerDashboard,basename='voluneteerdashboard')
 router.register(r"volunteerregister",views.Register,basename = 'register')
-router.register(r"volunteerlogin",views.Login,basename = 'login')
+router.register(r"volunteerlogin",views.LoginViewSet,basename = 'login')
 router.register(r"vaccine/all-result",views.AllResult,basename = 'vaccine')
 router.register(r"vaccine/result",views.Result,basename = 'result')
 router.register(r"makerregister",views.RegisterMakerViewset,basename = 'makerregister')

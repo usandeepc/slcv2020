@@ -37,7 +37,7 @@ class Register(viewsets.ModelViewSet):
     #    return HttpResponse(json.dumps({'Message':'method not supported'}),content_type = 'application/json')
 
 
-class Login(viewsets.ModelViewSet):
+class LoginViewSet(viewsets.ModelViewSet):
     serializer_class = LoginSerializer
     def list(self, request, *args, **kwargs):
         email = self.request.query_params.get('email')
@@ -239,10 +239,10 @@ class MakerDashboardFull(viewsets.ModelViewSet):
              "total_positive_placebo_group": total_positiveb_count,
              "efficacy_rate_halfdose" : efficacy_rate_halfdose,
              "efficacy_rate_fulldose" : efficacy_rate_fulldose,
-             "efficacyrate_overall" : efficacy_rate_overall,}
+             "efficacyrate_overall" : efficacy_rate_overall}
 
         
-        return HttpResponse(json.dumps(str(s)),content_type = 'application/json')
+        return JsonResponse(s,content_type = 'application/json')
 
 
 class MakerDashboard(viewsets.ModelViewSet):
