@@ -14,7 +14,8 @@ from vaccine.serializers import (RegisterSerializer,
                     LoginSerializer,
                     VoluteerDashboardSerializer,
                     CountSerializer,
-                    MakerSerializer
+                    MakerSerializer,
+                    MakerDashboardSerializer
 )
 from rest_framework import generics
 from rest_framework.filters import SearchFilter
@@ -28,12 +29,12 @@ class Register(viewsets.ModelViewSet):
         #return HttpResponse(json.dumps({'Message':'method not supported'}),content_type = 'application/json')
    # def retrieve(self, request, pk=None):
        # return HttpResponse(json.dumps({'Message':'method not supported'}),content_type = 'application/json')
-    def update(self, request, pk=None):
-        return HttpResponse(json.dumps({'Message':'method not supported'}),content_type = 'application/json')
-    def partial_update(self, request, pk=None):
-        return HttpResponse(json.dumps({'Message':'method not supported'}),content_type = 'application/json')
-    def destroy(self, request, pk=None):
-        return HttpResponse(json.dumps({'Message':'method not supported'}),content_type = 'application/json')
+    #def update(self, request, pk=None):
+    #    return HttpResponse(json.dumps({'Message':'method not supported'}),content_type = 'application/json')
+    #def partial_update(self, request, pk=None):
+    #    return HttpResponse(json.dumps({'Message':'method not supported'}),content_type = 'application/json')
+    #def destroy(self, request, pk=None):
+    #    return HttpResponse(json.dumps({'Message':'method not supported'}),content_type = 'application/json')
 
 
 class Login(viewsets.ModelViewSet):
@@ -53,6 +54,10 @@ class Login(viewsets.ModelViewSet):
 
 class VolunteerDashboard(viewsets.ModelViewSet):
     serializer_class = VoluteerDashboardSerializer
+    def update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
+        return super().update(request, *args, **kwargs)
+    
     def get_queryset(self):
         email = self.request.query_params.get('email')
         if email is None:
@@ -232,7 +237,7 @@ class MakerDashboardFull(viewsets.ModelViewSet):
 
 
 class MakerDashboard(viewsets.ModelViewSet):
-    serializer_class = MakerSerializer
+    serializer_class = MakerDashboardSerializer
     def get_queryset(self):
         email = self.request.query_params.get('email')
         if email is None:
@@ -245,3 +250,7 @@ class MakerDashboard(viewsets.ModelViewSet):
         else:
             qs = Maker.objects.all().filter(email = email)
         return qs
+
+    def update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
+        return super().update(request, *args, **kwargs)

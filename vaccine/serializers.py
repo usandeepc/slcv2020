@@ -31,4 +31,9 @@ class MakerSerializer(ModelSerializer):
         model = Maker
         fields = ['email','password','name','age','address']
 
+class MakerDashboardSerializer(ModelSerializer):
+    class Meta:
+        model = Maker
+        fields = '__all__'
+
 
