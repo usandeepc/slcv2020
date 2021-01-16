@@ -50,3 +50,4 @@ Run the application
 
 	/slcv/bin/python  /project/slcv2020/manage.py runserver 0.0.0.0:8080 
 
+
