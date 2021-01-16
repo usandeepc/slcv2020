@@ -29,6 +29,6 @@ class CountSerializer(ModelSerializer):
 class MakerSerializer(ModelSerializer):
     class Meta:
         model = Maker
-        fields = '__all__'
+        fields = ['email','password','name','age','address']
 
 

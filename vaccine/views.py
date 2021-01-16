@@ -194,6 +194,10 @@ class MakerDashboard(viewsets.ModelViewSet):
     def list(self,request, *args, **kwargs):
         total_count = Volunteer.objects.all().count()
         total_positive_count = Volunteer.objects.filter(status ='Positive').count()
+        total_positivea_count = Volunteer.objects.filter(status ='Positive').filter(group='A').count()
+        total_positiveb_count = Volunteer.objects.filter(status ='Positive').filter(group='B').count()
+        efficacy_rate_overall = (total_positiveb_count - total_positivea_count)/total_positiveb_count
+        
         s = {"total_volunteets_count": total_count, "total_positive_volunteets_count": total_positive_count}
         return HttpResponse(json.dumps(str(s)),content_type = 'application/json')
 
