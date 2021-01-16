@@ -231,9 +231,9 @@ class MakerDashboardFull(viewsets.ModelViewSet):
         efficacy_rate_fulldose = (total_positivefullb_count-total_positivefulla_count)/total_positivefullb_count
 
         if total_positive_count < threshold:
-            s = {"total_volunteets_count": total_count, "total_positive_volunteets_count": total_positive_count}
+            s = {"total_volunteers_count": total_count, "total_positive_volunteers_count": total_positive_count}
         elif total_positive_count >= threshold:
-            s = {"total_volunteets_count": total_count,
+            s = {"total_volunteers_count": total_count,
              "total_positive_volunteers_count": total_positive_count,
              "total_positive_vaccine_group": total_positivea_count,
              "total_positive_placebo_group": total_positiveb_count,
