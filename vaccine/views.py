@@ -172,7 +172,7 @@ class Result(viewsets.ModelViewSet):
         else:
             return HttpResponse(json.dumps({ "error_message":"Group is placebo type,Efficacy cannot be calculated"}),content_type = 'application/json')
 
-class MakerViewset(viewsets.ModelViewSet):
+class LoginMakerViewset(viewsets.ModelViewSet):
     queryset = Maker.objects.all()
     serializer_class = MakerSerializer
     def list(self, request, *args, **kwargs):
@@ -183,7 +183,12 @@ class MakerViewset(viewsets.ModelViewSet):
         elif not Maker.objects.filter(email = email, password = password).exists():
             return HttpResponse(json.dumps({ "error_message":"No Such user/Password"}),content_type = 'application/json')
         else:
-            return HttpResponse(json.dumps({ "error_message":"authsuccesful"}),content_type = 'application/json') 
+            return HttpResponse(json.dumps({ "error_message":"authsuccesful"}),content_type = 'application/json')
+
+class RegisterMakerViewset(viewsets.ModelViewSet):
+    queryset = Maker.objects.all()
+    serializer_class = MakerSerializer
+  
 
 class MakerDashboard(viewsets.ModelViewSet):
     def list(self,request, *args, **kwargs):

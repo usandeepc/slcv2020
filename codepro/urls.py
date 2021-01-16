@@ -22,11 +22,12 @@ router = routers.DefaultRouter()
 
 
 router.register(r"volunteerdashboard",views.VolunteerDashboard,basename='voluneteerdashboard')
-router.register(r"register",views.Register,basename = 'register')
-router.register(r"login",views.Login,basename = 'login')
+router.register(r"volunteerregister",views.Register,basename = 'register')
+router.register(r"volunteerlogin",views.Login,basename = 'login')
 router.register(r"vaccine/all-result",views.AllResult,basename = 'vaccine')
 router.register(r"vaccine/result",views.Result,basename = 'result')
-router.register(r"maker",views.MakerViewset,basename = 'maker')
+router.register(r"makerregister",views.RegisterMakerViewset,basename = 'makerregister')
+router.register(r"makerlogin",views.LoginMakerViewset,basename = 'makerlogin')
 router.register(r"makerdashboard",views.MakerDashboard,basename = 'makerdashboard')
 urlpatterns = [
     path(r"admin/", admin.site.urls),
