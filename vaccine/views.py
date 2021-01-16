@@ -82,12 +82,15 @@ class AllResult(viewsets.ModelViewSet):
         volunteers = queryset.count()
         positive_data = Volunteer.objects.filter(status = 'Positive')
         positives = positive_data.count()
-        positive_a = Volunteer.objects.filter(status = 'Positive').filter(group = 'A').count()
-        positive_b = Volunteer.objects.filter(status = 'Positive').filter(group = 'B').count()
+#        positive_a = Volunteer.objects.filter(status = 'Positive').filter(group = 'A').count()
+#        positive_b = Volunteer.objects.filter(status = 'Positive').filter(group = 'B').count()
         threshold = 0
-        efficacy_rate =(positive_b-positive_a)/positive_b
-        vaccine = 'B'
+#        efficacy_rate =(positive_b-positive_a)/positive_b
+        vaccine = 'A'
         if vaccine == 'A':
+            positive_a = Volunteer.objects.filter(status = 'Positive').filter(group = 'A').count()
+            positive_b = Volunteer.objects.filter(status = 'Positive').filter(group = 'B').count()
+            efficacy_rate =(positive_b-positive_a)/positive_b
             s = [
                     {
                         "name" : "slcv2020",
@@ -95,8 +98,8 @@ class AllResult(viewsets.ModelViewSet):
                         "vaccinegroup" : "A",
                         "efficacy_rate" : {efficacy_rate},
                         "result" : {
-                            "volunteer" : {volunteers},
-                            "confirm_positive" :{positive_a}
+                            "volunteer" : volunteers,
+                            "confirm_positive" :positive_a
                         }
                     },
                     {
@@ -104,21 +107,24 @@ class AllResult(viewsets.ModelViewSet):
                         "type" : "placebo",
                         "vaccinegroup" : "B",
                         "result" : {
-                            "volunteer" : {volunteers},
-                            "confirm_positive" :{positive_b}
+                            "volunteer" : volunteers,
+                            "confirm_positive" :positive_b
                         }
                     }
                 ]
         elif vaccine == 'B':
+            positive_a = Volunteer.objects.filter(status = 'Positive').filter(group = 'B').count()
+            positive_b = Volunteer.objects.filter(status = 'Positive').filter(group = 'A').count()
+            efficacy_rate =(positive_b-positive_a)/positive_b
             s = [
                     {
                         "name" : "unknown",
                         "type" : "placebo",
                         "vaccinegroup" : "A",
-                        "efficacy_rate" : {efficacy_rate},
+                        "efficacy_rate" : efficacy_rate,
                         "result" : {
-                            "volunteer" : {volunteers},
-                            "confirm_positive" :{positive_a}
+                            "volunteer" : volunteers,
+                            "confirm_positive" :positive_a
                         }
                     },
                     {
@@ -126,15 +132,15 @@ class AllResult(viewsets.ModelViewSet):
                         "type" : "vaccine",
                         "vaccinegroup" : "B",
                         "result" : {
-                            "volunteer" : {volunteers},
-                            "confirm_positive" :{positive_b}
+                            "volunteer" : volunteers,
+                            "confirm_positive" :positive_b
                         }
                     }
                 ]
 
         p = str(s)
         if positives>threshold :
-            return HttpResponse(p ,content_type = 'application/json')
+            return HttpResponse(json.dumps(p) ,content_type = 'application/json')
         else:
             return HttpResponse(json.dumps({ "error_message":"Phase 3 Trial in progress, please wait."}),content_type = 'application/json')
             
@@ -197,15 +203,18 @@ class RegisterMakerViewset(viewsets.ModelViewSet):
 
 class MakerDashboardFull(viewsets.ModelViewSet):
     def list(self,request, *args, **kwargs):
-
+        vaccine = 'B'
         threshold = 1
         total_count = Volunteer.objects.all().count()
         total_positive_count = Volunteer.objects.filter(status ='Positive').count()
 
+        if vaccine == 'A':
+            total_positivea_count = Volunteer.objects.filter(status ='Positive').filter(group='A').count()
+            total_positiveb_count = Volunteer.objects.filter(status ='Positive').filter(group='B').count()
+        elif vaccine == 'B':
+            total_positivea_count = Volunteer.objects.filter(status ='Positive').filter(group='B').count()
+            total_positiveb_count = Volunteer.objects.filter(status ='Positive').filter(group='A').count()
 
-        total_positivea_count = Volunteer.objects.filter(status ='Positive').filter(group='A').count()
-        total_positiveb_count = Volunteer.objects.filter(status ='Positive').filter(group='B').count()
-        
         
         efficacy_rate_overall = (total_positiveb_count - total_positivea_count)/total_positiveb_count
 
