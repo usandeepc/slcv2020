@@ -190,7 +190,7 @@ class RegisterMakerViewset(viewsets.ModelViewSet):
     serializer_class = MakerSerializer
   
 
-class MakerDashboard(viewsets.ModelViewSet):
+class MakerDashboardFull(viewsets.ModelViewSet):
     def list(self,request, *args, **kwargs):
 
         threshold = 1
@@ -231,7 +231,17 @@ class MakerDashboard(viewsets.ModelViewSet):
         return HttpResponse(json.dumps(str(s)),content_type = 'application/json')
 
 
-class MakerDashboardFull(viewsets.ModelViewSet):
-    def list(self,request, *args, **kwargs):
-        total_count = Volunteer.objects.all().count()
-        total_positive_count = Volunteer.objects.filter(status ='Positive').count()
+class MakerDashboard(viewsets.ModelViewSet):
+    serializer_class = MakerSerializer
+    def get_queryset(self):
+        email = self.request.query_params.get('email')
+        if email is None:
+        #    return HttpResponse(json.dumps({'Message':'please provide required details in query string'}),content_type = 'application/json')
+            qs = Maker.objects.none()
+        elif not Maker.objects.filter(email = email).exists():
+        #    return HttpResponse(json.dumps({'Message':'No user found with given details'}),content_type = 'application/json')
+            qs = Maker.objects.none()
+            
+        else:
+            qs = Maker.objects.all().filter(email = email)
+        return qs

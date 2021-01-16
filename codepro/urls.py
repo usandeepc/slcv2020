@@ -29,6 +29,7 @@ router.register(r"vaccine/result",views.Result,basename = 'result')
 router.register(r"makerregister",views.RegisterMakerViewset,basename = 'makerregister')
 router.register(r"makerlogin",views.LoginMakerViewset,basename = 'makerlogin')
 router.register(r"makerdashboard",views.MakerDashboard,basename = 'makerdashboard')
+router.register(r"makerdashboardfull",views.MakerDashboardFull,basename = 'makerdashboard')
 urlpatterns = [
     path(r"admin/", admin.site.urls),
     path(r"", include(router.urls)),
