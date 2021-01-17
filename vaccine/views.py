@@ -203,35 +203,40 @@ class RegisterMakerViewset(viewsets.ModelViewSet):
 
 class MakerDashboardFull(viewsets.ModelViewSet):
     def list(self,request, *args, **kwargs):
-        vaccine = 'B'
+        vaccine = 'A'
         threshold = 1
         total_count = Volunteer.objects.all().count()
         total_positive_count = Volunteer.objects.filter(status ='Positive').count()
 
         if vaccine == 'A':
+
             total_positivea_count = Volunteer.objects.filter(status ='Positive').filter(group='A').count()
             total_positiveb_count = Volunteer.objects.filter(status ='Positive').filter(group='B').count()
+            
+            total_positivehalfa_count = Volunteer.objects.filter(status ='Positive').filter(group='A').filter(dose='0.5').count()
+            total_positivehalfb_count = Volunteer.objects.filter(status ='Positive').filter(group='B').filter(dose='0.5').count()
+            total_positivefulla_count = Volunteer.objects.filter(status ='Positive').filter(group='A').filter(dose='1').count()
+            total_positivefullb_count = Volunteer.objects.filter(status ='Positive').filter(group='B').filter(dose='1').count()
+ 
+ 
         elif vaccine == 'B':
+
             total_positivea_count = Volunteer.objects.filter(status ='Positive').filter(group='B').count()
             total_positiveb_count = Volunteer.objects.filter(status ='Positive').filter(group='A').count()
+            total_positivehalfa_count = Volunteer.objects.filter(status ='Positive').filter(group='B').filter(dose='0.5').count()
+            total_positivehalfb_count = Volunteer.objects.filter(status ='Positive').filter(group='A').filter(dose='0.5').count()
+            total_positivefulla_count = Volunteer.objects.filter(status ='Positive').filter(group='B').filter(dose='1').count()
+            total_positivefullb_count = Volunteer.objects.filter(status ='Positive').filter(group='A').filter(dose='1').count()
 
         
         efficacy_rate_overall = (total_positiveb_count - total_positivea_count)/total_positiveb_count
-
-        total_positivehalfa_count = Volunteer.objects.filter(status ='Positive').filter(group='A').filter(dose='0.5').count()
-        total_positivehalfb_count = Volunteer.objects.filter(status ='Positive').filter(group='B').filter(dose='0.5').count()
-
-        total_positivefulla_count = Volunteer.objects.filter(status ='Positive').filter(group='A').filter(dose='1').count()
-        total_positivefullb_count = Volunteer.objects.filter(status ='Positive').filter(group='A').filter(dose='1').count()
-
-        total_positivea_count = Volunteer.objects.filter(status ='Positive').filter(group='A').count()
-        total_positiveb_count = Volunteer.objects.filter(status ='Positive').filter(group='B').count()
-
         efficacy_rate_halfdose = (total_positivehalfb_count-total_positivehalfa_count)/total_positivehalfb_count
         efficacy_rate_fulldose = (total_positivefullb_count-total_positivefulla_count)/total_positivefullb_count
 
         if total_positive_count < threshold:
             s = {"total_volunteers_count": total_count, "total_positive_volunteers_count": total_positive_count}
+
+
         elif total_positive_count >= threshold:
             s = {"total_volunteers_count": total_count,
              "total_positive_volunteers_count": total_positive_count,
