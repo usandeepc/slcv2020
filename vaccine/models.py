@@ -9,7 +9,7 @@ class Volunteer(models.Model):
     class Gender(models.TextChoices):
         M = 'male'
         F = 'female'
-        o = 'others'
+        o = 'other'
     gender = models.CharField(max_length = 8, choices = Gender.choices, default = Gender.M);
     address = models.CharField(max_length = 256, default = None);
     health_info = models.TextField(max_length = 256, default = None);
