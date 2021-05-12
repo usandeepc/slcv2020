@@ -23,5 +23,11 @@ jobs:
       # Runs a single command using the runners shell
       - name: Check Python Version
         run: which python
+      - name: Check Python Version
+        run: Python -V
+      - name: Check Java Version
+        run: java -version
+      - name: Check Maven
+        run: mvn --version
 
 
