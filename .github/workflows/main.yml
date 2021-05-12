@@ -24,7 +24,7 @@ jobs:
       - name: Check Python Version
         run: which python
       - name: Check Python Version
-        run: Python -V
+        run: python -V
       - name: Check Java Version
         run: java -version
       - name: Check Maven
